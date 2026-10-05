@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#07111f" />
+  <title>Zynex Exchange</title>
+  <style>
+    :root{--bg:#07111f;--card:#101d2e;--card2:#0b1726;--line:#22364e;--text:#eef4ff;--muted:#91a5bd;--blue:#2b74ff;--green:#4fd197;--amber:#ffc65c;--red:#ff7676}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:radial-gradient(circle at 10% 0,#132846 0,#07111f 42%,#050c15 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    button,input,select{font:inherit} button{cursor:pointer}.wrap{max-width:1180px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#2b74ff,#7a5cff);display:grid;place-items:center;font-weight:900;font-size:20px;box-shadow:0 10px 30px #2b74ff44}.brand h1{font-size:21px;margin:0}.brand .sub{font-size:12px;color:var(--muted);margin-top:2px}.status{font-size:12px;padding:7px 10px;border-radius:999px;background:#15263c;color:#c8d6e7;border:1px solid #2b405c}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.nav button{width:auto;border:1px solid var(--line);background:#0d1a2a;color:#dfeaff;border-radius:11px;padding:10px 14px}.nav button.active{background:var(--blue);border-color:var(--blue);color:#fff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}.card{background:linear-gradient(180deg,#111f31,#0d1928);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 18px 50px #0003}.card h2,.card h3{margin:0 0 12px}.muted{color:var(--muted);font-size:13px}.small{font-size:12px}.value{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:5px 0}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all}.row{display:flex;gap:10px}.row>*{flex:1}.input,select,input{width:100%;padding:12px 13px;border:1px solid #2c425e;border-radius:12px;background:#08131f;color:#fff;outline:none;margin:6px 0}.input:focus,select:focus,input:focus{border-color:#4a82ff;box-shadow:0 0 0 3px #2b74ff18}.btn{width:100%;border:0;border-radius:12px;padding:12px 14px;background:var(--blue);color:#fff;font-weight:750;margin:6px 0}.btn.alt{background:#1a2b40}.btn.danger{background:#a43e46}.btn.good{background:#157c59}.btn:disabled{opacity:.45;cursor:not-allowed}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#172a41;font-size:12px;border:1px solid #28445f}.pill.good{color:#7be1b0}.pill.warn{color:#ffd37d}.pill.bad{color:#ff9898}.hidden{display:none!important}.section{display:none}.section.active{display:block}.item{padding:11px 0;border-top:1px solid #203247;font-size:13px}.item:first-child{border-top:0}.amount{font-weight:800}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:14px}.hero .headline{font-size:34px;line-height:1.05;font-weight:900;margin:4px 0 10px;letter-spacing:-.035em}.hero .card{min-height:215px}.notice{padding:12px;border-radius:12px;background:#0a1725;border:1px solid #20334a;color:#b8c8da;font-size:13px}.authbox{max-width:800px;margin:60px auto}.tabs{display:flex;gap:8px;margin-bottom:10px}.tabs button{width:auto}.kpi{padding:14px;border-radius:14px;background:#0b1725;border:1px solid #20364e}.kpi .lab{font-size:12px;color:var(--muted)}.kpi .num{font-size:22px;font-weight:800;margin-top:4px}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.right{text-align:right}.nowrap{white-space:nowrap}.success{color:var(--green)}.warning{color:var(--amber)}.error{color:var(--red)}.footer{color:#6e839d;font-size:12px;text-align:center;padding:26px 0 8px}@media(max-width:760px){.hero,.split{grid-template-columns:1fr}.top{align-items:flex-start}.hero .headline{font-size:29px}.row{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><div class="logo">Z</div><div><h1>ZYNEX EXCHANGE</h1><div class="sub">USDT ↔ INR • BNB Smart Chain</div></div></div>
+    <div id="connection" class="status">Backend checking…</div>
+  </div>
+
+  <div id="authView" class="authbox card">
+    <h2>Welcome to Zynex</h2><div class="muted">Sign in to access your exchange workspace and personal BSC USDT wallet.</div>
+    <div style="height:12px"></div>
+    <div class="split">
+      <div><input id="email" type="email" placeholder="Email address" /><input id="password" type="password" placeholder="Password" /><div class="row"><button id="signIn" class="btn">Sign in</button><button id="signUp" class="btn alt">Create account</button></div><div id="authMsg" class="muted"></div></div>
+      <div class="notice"><b>Wallet security</b><br><br>Your deposit wallet is generated server-side. Private signing material is not stored in this page or exposed to your browser.</div>
+    </div>
+  </div>
+
+  <div id="appView" class="hidden">
+    <div class="nav">
+      <button data-tab="exchange" class="active">Exchange</button>
+      <button data-tab="wallet">Wallet</button>
+      <button data-tab="orders">Orders</button>
+      <button data-tab="admin">Admin</button>
+      <button id="logout" class="alt">Sign out</button>
+    </div>
+
+    <section id="exchange" class="section active">
+      <div class="hero">
+        <div class="card">
+          <div class="muted">USDT → INR</div><div class="headline">Sell USDT and create an INR payout order.</div>
+          <div class="muted">Quotes use the current Zynex rate configuration. Funds are reserved from your USDT ledger when an order is created.</div>
+          <div style="height:12px"></div>
+          <div class="grid">
+            <div class="kpi"><div class="lab">Available USDT</div><div id="exAvailable" class="num">0</div></div>
+            <div class="kpi"><div class="lab">Reserved USDT</div><div id="exReserved" class="num">0</div></div>
+            <div class="kpi"><div class="lab">Network</div><div class="num">BSC</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Create quote</h3>
+          <select id="paymentMethod"><option value="QR">Scan & Pay</option><option value="UPI">UPI</option><option value="IMPS">IMPS</option><option value="NEFT">NEFT</option><option value="RTGS">RTGS</option></select>
+          <input id="inrAmount" type="number" min="1" step="1" placeholder="INR amount" />
+          <button id="getQuote" class="btn">Get quote</button>
+          <div id="quoteBox" class="muted">Enter an amount to calculate required USDT.</div>
+        </div>
+      </div>
+      <div id="orderCreateBox" class="card hidden" style="margin-top:14px"><h3>Confirm payout order</h3><div id="quoteSummary"></div><input id="recipientRef" placeholder="Recipient / UPI / bank reference" /><button id="createOrder" class="btn good">Reserve USDT & create order</button><div id="orderMsg" class="muted"></div></div>
+    </section>
+
+    <section id="wallet" class="section">
+      <div class="grid">
+        <div class="card"><div class="muted">Available USDT</div><div id="available" class="value">0.00000000</div><div class="muted">Reserved: <span id="reserved">0.00000000</span> USDT</div></div>
+        <div class="card"><div class="muted">Your BSC deposit address</div><div id="depositAddress" class="mono" style="margin:10px 0"></div><button id="copyAddress" class="btn alt">Copy address</button><div class="small muted">Send only BEP-20 USDT.</div></div>
+        <div class="card"><div class="muted">Wallet mode</div><div style="margin-top:10px"><span id="walletMode" class="pill">Checking</span></div><div class="small muted" style="margin-top:12px">Confirmed deposits are credited automatically by the BSC scanner.</div></div>
+      </div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card"><h3>Withdraw USDT</h3><input id="withdrawAddress" placeholder="Destination BSC address" /><input id="withdrawAmount" type="number" step="0.00000001" placeholder="Amount USDT" /><button id="withdrawRequest" class="btn">Create withdrawal request</button><div id="withdrawMsg" class="muted"></div></div>
+        <div class="card"><h3>Recent deposits</h3><div id="depositList" class="muted">No deposits yet.</div></div>
+        <div class="card"><h3>Recent withdrawals</h3><div id="withdrawList" class="muted">No withdrawals yet.</div></div>
+      </div>
+    </section>
+
+    <section id="orders" class="section">
+      <div class="card"><h3>Your exchange orders</h3><div id="ordersList" class="muted">No orders found.</div></div>
+    </section>
+
+    <section id="admin" class="section">
+      <div class="card">
+        <h2>Admin wallet controls</h2><div id="adminStatus" class="muted">Checking access…</div>
+        <div id="ownerClaim" class="hidden"><input id="ownerToken" type="password" placeholder="One-time owner bootstrap token" /><button id="claimOwner" class="btn">Claim owner access</button><div class="small muted">The token is invalidated after the first successful owner claim.</div></div>
+        <div id="adminControls" class="hidden">
+          <div class="grid" style="margin-top:14px">
+            <div class="kpi"><div class="lab">Treasury BNB</div><div id="adminBnb" class="num">0</div></div>
+            <div class="kpi"><div class="lab">Treasury USDT</div><div id="adminUsdt" class="num">0</div></div>
+            <div class="kpi"><div class="lab">Child wallets</div><div id="childWalletCount" class="num">0</div></div>
+          </div>
+          <div style="margin-top:14px"><div class="small muted">Treasury address</div><div id="adminAddress" class="mono"></div></div>
+          <div class="row" style="margin-top:14px"><button id="enableLive" class="btn good">Enable live wallet</button><button id="disableLive" class="btn danger">Disable live wallet</button></div>
+          <div class="row"><button id="sweepPreview" class="btn alt">Preview sweep</button><button id="sweepExecute" class="btn">Sweep eligible USDT</button></div>
+          <pre id="sweepOutput" class="notice mono" style="white-space:pre-wrap;max-height:320px;overflow:auto"></pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="footer">Zynex Exchange • Wallet backend powered by Supabase + BSC</div>
+</div>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.4';
+const SUPABASE_URL='https://trbtxnfrzrursgzexrqs.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_kYqUBo-m6A_LkYSK6L4hBg_3wOkk2vL';
+const sb=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const walletApi=SUPABASE_URL+'/functions/v1/wallet-api';
+const ownerApi=SUPABASE_URL+'/functions/v1/wallet-portal';
+const quoteApi=SUPABASE_URL+'/functions/v1/create-payment-quote';
+const orderApi=SUPABASE_URL+'/functions/v1/create-payment-order';
+const $=id=>document.getElementById(id);
+let account=null,currentQuote=null;
+
+async function session(){return (await sb.auth.getSession()).data.session}
+async function authFetch(url,body){const s=await session();if(!s)throw new Error('Not signed in');const r=await fetch(url,{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+s.access_token,'apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(body)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||j.detail||'Request failed');return j}
+async function wallet(action,extra={}){return authFetch(walletApi,{action,...extra})}
+function setConn(ok,msg){$('connection').textContent=msg;$('connection').style.color=ok?'#7be1b0':'#ffd37d'}
+function fmt(n,d=8){return Number(n||0).toFixed(d)}
+function renderRows(el,rows,fn,empty='No records yet.'){el.innerHTML=rows?.length?rows.map(fn).join(''):'<div class="muted">'+empty+'</div>'}
+async function loadWallet(){account=await wallet('account');$('available').textContent=fmt(account.available);$('reserved').textContent=fmt(account.reserved);$('exAvailable').textContent=fmt(account.available);$('exReserved').textContent=fmt(account.reserved);$('depositAddress').textContent=account.deposit_address||'';$('walletMode').textContent=account.live_enabled?'LIVE':'Live sends disabled';$('walletMode').className='pill '+(account.live_enabled?'good':'warn');renderRows($('depositList'),account.deposits,d=>'<div class="item"><div class="amount">'+d.amount+' USDT</div><div>'+d.status+' • '+d.confirmations+' confirmations</div><div class="mono muted">'+(d.tx_hash||'')+'</div></div>');renderRows($('withdrawList'),account.withdrawals,w=>'<div class="item"><div class="amount">'+w.amount+' USDT</div><div>'+w.status+'</div><div class="mono muted">'+(w.tx_hash||w.to_address||'')+'</div></div>');setConn(true,'Wallet backend connected')}
+async function loadOrders(){const s=await session();const {data,error}=await sb.from('payment_orders').select('id,payment_method,amount_usdt,amount_inr,status,created_at').order('created_at',{ascending:false}).limit(30);if(error){$('ordersList').textContent='Orders unavailable: '+error.message;return}renderRows($('ordersList'),data,o=>'<div class="item"><div class="row"><div><b>'+o.payment_method+'</b><div class="muted">'+new Date(o.created_at).toLocaleString()+'</div></div><div class="right"><b>₹'+Number(o.amount_inr).toFixed(2)+'</b><div class="muted">'+o.amount_usdt+' USDT • '+o.status+'</div></div></div></div>','No orders yet.')}
+async function loadAdmin(){try{const a=await wallet('admin_status');$('ownerClaim').classList.add('hidden');$('adminControls').classList.remove('hidden');$('adminStatus').innerHTML='<span class="success">'+(a.health_status||'HEALTHY')+'</span> • '+(a.live_enabled?'LIVE':'LIVE OFF');$('adminBnb').textContent=a.admin_bnb;$('adminUsdt').textContent=a.admin_usdt;$('childWalletCount').textContent=a.wallet_count;$('adminAddress').textContent=a.admin_address||'';$('enableLive').disabled=!a.can_enable_live||a.live_enabled;$('disableLive').disabled=!a.live_enabled}catch(e){$('adminStatus').textContent='Owner access is not configured for this account.';$('ownerClaim').classList.remove('hidden');$('adminControls').classList.add('hidden')}}
+async function checkBackend(){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),8000);
+  try{
+    const r=await fetch(SUPABASE_URL+'/auth/v1/settings',{headers:{'apikey':SUPABASE_PUBLISHABLE_KEY},signal:controller.signal,cache:'no-store'});
+    clearTimeout(timer);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    setConn(true,'Backend online');
+    return true;
+  }catch(e){
+    clearTimeout(timer);
+    setConn(false,'Backend unavailable');
+    return false;
+  }
+}
+async function syncUi(){const s=await session();$('authView').classList.toggle('hidden',!!s);$('appView').classList.toggle('hidden',!s);if(s){try{await loadWallet();await loadOrders()}catch(e){setConn(false,'Wallet connection failed')}}}
+
+document.querySelectorAll('.nav [data-tab]').forEach(b=>b.onclick=async()=>{document.querySelectorAll('.nav [data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));$(b.dataset.tab).classList.add('active');if(b.dataset.tab==='admin')await loadAdmin();if(b.dataset.tab==='orders')await loadOrders()});
+$('signIn').onclick=async()=>{try{const {error}=await sb.auth.signInWithPassword({email:$('email').value,password:$('password').value});if(error)throw error;$('authMsg').textContent='Signed in';await syncUi()}catch(e){$('authMsg').textContent=e.message}};
+$('signUp').onclick=async()=>{try{const {error}=await sb.auth.signUp({email:$('email').value,password:$('password').value});if(error)throw error;$('authMsg').textContent='Account created. Confirm email if requested, then sign in.';await syncUi()}catch(e){$('authMsg').textContent=e.message}};
+$('logout').onclick=async()=>{await sb.auth.signOut();location.reload()};
+$('copyAddress').onclick=async()=>{await navigator.clipboard.writeText($('depositAddress').textContent);$('copyAddress').textContent='Copied';setTimeout(()=>$('copyAddress').textContent='Copy address',1200)};
+$('withdrawRequest').onclick=async()=>{try{$('withdrawMsg').textContent='Submitting…';const j=await wallet('withdraw_request',{to_address:$('withdrawAddress').value,amount:Number($('withdrawAmount').value),fee:0});$('withdrawMsg').textContent='Withdrawal created: '+j.withdrawal_id;await loadWallet()}catch(e){$('withdrawMsg').textContent=e.message}};
+$('getQuote').onclick=async()=>{try{currentQuote=await authFetch(quoteApi,{payment_method:$('paymentMethod').value,inr_amount:Number($('inrAmount').value)});$('quoteBox').innerHTML='<b>'+currentQuote.usdt_amount+' USDT</b> required<br>Rate: ₹'+currentQuote.applied_rate+' / USDT<br>Fee: ₹'+Number(currentQuote.fee_inr||0).toFixed(2);$('quoteSummary').innerHTML='<div class="grid"><div class="kpi"><div class="lab">INR payout</div><div class="num">₹'+Number(currentQuote.net_inr).toFixed(2)+'</div></div><div class="kpi"><div class="lab">USDT reserved</div><div class="num">'+currentQuote.usdt_amount+'</div></div></div>';$('orderCreateBox').classList.remove('hidden')}catch(e){$('quoteBox').textContent=e.message;$('orderCreateBox').classList.add('hidden')}};
+$('createOrder').onclick=async()=>{if(!currentQuote)return;try{const j=await authFetch(orderApi,{quote_id:currentQuote.id,recipient_ref:$('recipientRef').value});$('orderMsg').textContent='Order created: '+j.order_id;currentQuote=null;$('orderCreateBox').classList.add('hidden');await loadWallet();await loadOrders()}catch(e){$('orderMsg').textContent=e.message}};
+$('claimOwner').onclick=async()=>{try{const j=await authFetch(ownerApi,{action:'claim_owner',token:$('ownerToken').value});$('ownerToken').value='';$('adminStatus').textContent='Owner access claimed';await loadAdmin()}catch(e){$('adminStatus').textContent=e.message}};
+$('enableLive').onclick=async()=>{if(!confirm('Enable real BSC withdrawals and Admin sweeps?'))return;try{await wallet('set_live',{enable:true});await loadWallet();await loadAdmin()}catch(e){$('adminStatus').textContent=e.message}};
+$('disableLive').onclick=async()=>{if(!confirm('Disable real BSC sends?'))return;try{await wallet('set_live',{enable:false});await loadWallet();await loadAdmin()}catch(e){$('adminStatus').textContent=e.message}};
+$('sweepPreview').onclick=async()=>{try{$('sweepOutput').textContent=JSON.stringify(await wallet('sweep_preview'),null,2)}catch(e){$('sweepOutput').textContent=e.message}};
+$('sweepExecute').onclick=async()=>{if(!confirm('Sweep eligible child-wallet USDT to treasury? This creates on-chain transactions.'))return;try{$('sweepOutput').textContent=JSON.stringify(await wallet('sweep_execute'),null,2);await loadAdmin()}catch(e){$('sweepOutput').textContent=e.message}};
+sb.auth.onAuthStateChange(()=>syncUi());
+checkBackend();
+syncUi();
+</script>
+</body>
+</html>
